@@ -23,10 +23,6 @@ export default defineNuxtConfig({
   },
 
   // App Config untuk GitHub Pages
-  app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/DzClown.github.io/' : '/',
-    buildAssetsDir: 'assets',
-  },
   
   // Future flags (biasanya enabled default di v4, tapi bagus untuk memastikan)
   future: {
