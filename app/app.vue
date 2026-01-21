@@ -26,8 +26,7 @@
             </h1>
 
             <p class="text-slate-400 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl border-l-4 border-cyan-500 pl-6">
-              <b>Self-taught Programmer</b> dengan pengalaman profesional membangun sistem ERP (Node.js/Vue.js/CI4) dan scripting Game Server. 
-              Berkomitmen mengubah pengalaman perhotelan menjadi solusi digital yang user-friendly.
+              <b>Self-taught Fullstack Node.JS Developer</b> dengan pengalaman profesional membangun sistem ERP (Node.js/Vue.js/CI4) dan scripting Game Server. 
             </p>
 
             <div class="flex gap-4">
