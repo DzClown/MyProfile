@@ -1,0 +1,37 @@
+{
+  "name": "my-portofolio",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "deploy": "gh-pages -d .output/public"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.12.1",
+    "@nuxt/image": "2.0.0",
+    "@nuxt/ui": "4.3.0",
+    "@tresjs/cientos": "^5.2.3",
+    "@tresjs/core": "^5.3.1",
+    "@tresjs/nuxt": "^5.1.5",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
+    "nuxt": "^4.2.2",
+    "three": "^0.182.0",
+    "vue": "^3.5.27",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.9",
+    "autoprefixer": "^10.4.23",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.6",
+    "sass": "^1.97.2",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.2"
+  }
+}

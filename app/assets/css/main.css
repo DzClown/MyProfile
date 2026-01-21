@@ -1,0 +1,23 @@
+/* app/assets/css/main.css */
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Custom Theme Override */
+@theme {
+  /* Kita extend warna default Nuxt UI dengan warna futuristik */
+  --color-primary-500: #06b6d4; /* Cyan-500 */
+  --color-gray-950: #02040a;    /* Background sangat gelap */
+}
+
+/* Global Styles */
+body {
+  background-color: var(--color-gray-950);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Helper Text Glow */
+.text-glow {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
