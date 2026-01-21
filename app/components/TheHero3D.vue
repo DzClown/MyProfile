@@ -1,17 +1,28 @@
-<script setup lang="ts">
-// Tidak perlu script animasi di sini. 
-// Biarkan TheHeroMesh yang mengurusnya.
-</script>
-
 <template>
-  <TresCanvas clear-color="#02040a" window-size>
-    <TresPerspectiveCamera :position="[0, 0, 6]" :fov="45" />
+  <TresCanvas clear-color="#02040a" window-size shadows>
+    <TresPerspectiveCamera :position="[0, 1, 6]" :fov="50" />
+    <TresAmbientLight :intensity="0.5" />
+    <TresDirectionalLight :position="[5, 5, 5]" :intensity="3" color="#06b6d4" cast-shadow />
+    <TresPointLight :position="[-5, -2, -5]" :intensity="2" color="#d946ef" />
     
-    <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :position="[2, 2, 5]" :intensity="2" color="#06b6d4" />
+    <OrbitControls :enable-zoom="false" :enable-pan="false" />
 
-    <TheHeroMesh />
+    <Suspense>
+      <TheHeroMesh />
+      
+      <template #fallback>
+        <TresMesh>
+           <TresBoxGeometry />
+           <TresMeshBasicMaterial color="cyan" wireframe />
+        </TresMesh>
+      </template>
+    </Suspense>
 
-    <Stars :radius="40" :count="1500" :factor="4" :fade="true" />
+    <Stars :radius="50" :count="2000" :factor="4" :fade="true" />
   </TresCanvas>
 </template>
+
+<script setup lang="ts">
+// Jangan lupa import ini jika belum
+import { OrbitControls } from '@tresjs/cientos'
+</script>
