@@ -1,57 +1,114 @@
 <script setup lang="ts">
-const stacks = [
-  { name: 'Node.js', icon: 'i-logos-nodejs-icon' },
-  { name: 'Nest.js', icon: 'i-logos-nestjs' },
-  { name: 'Vue.js', icon: 'i-logos-vue' },
-  { name: 'Nuxt', icon: 'i-logos-nuxt-icon' },
-  { name: 'Docker', icon: 'i-logos-docker-icon' },
-  { name: 'PostgreSQL', icon: 'i-logos-postgresql' },
-  { name: 'Redis', icon: 'i-logos-redis' },
-  { name: 'Lua', icon: 'i-logos-lua' },
-  { name: 'Linux', icon: 'i-logos-linux-tux' },
-  { name: 'DigitalOcean', icon: 'i-logos-digital-ocean-icon' },
-  { name: 'TypeScript', icon: 'i-logos-typescript-icon' },
-  { name: 'Tailwind', icon: 'i-logos-tailwindcss-icon' },
+// 1. DATA: Languages & Frameworks
+const languages = [
+  { name: 'Node.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
+  { name: 'Nuxt 3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg' },
+  { name: 'Vue.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+  { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
+  { name: 'Luau (Roblox)', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg' }, // Pakai icon Lua
+  { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+  { name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+  { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+]
+
+// 2. DATA: Tools & Infrastructure
+const tools = [
+  { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+  { name: 'Digital Ocean', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/digitalocean/digitalocean-original.svg' },
+  { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
+  { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' },
+  { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
+  { name: 'Linux', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+  { name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg' },
+  { name: 'Postman', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg' },
 ]
 </script>
 
 <template>
-  <section class="py-10 border-y border-white/5 bg-black/30 backdrop-blur-sm relative z-10 overflow-hidden">
-    <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-950 to-transparent z-20"></div>
-    <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-950 to-transparent z-20"></div>
+  <section class="py-20 bg-[#02040a] border-y border-white/5 relative overflow-hidden">
+    
+    <div class="container mx-auto px-6 mb-12 text-center">
+      <h2 class="text-3xl font-bold text-white mb-4">
+        Tech <span class="text-primary-400">Stack</span>
+      </h2>
+      <p class="text-gray-400">Teknologi dan tools yang saya gunakan sehari-hari.</p>
+    </div>
 
-    <div class="flex overflow-hidden group">
-      <div class="flex animate-marquee gap-12 min-w-full px-6">
-        <div 
-          v-for="(tech, i) in stacks" 
-          :key="i"
-          class="flex items-center gap-3 text-slate-400 font-mono font-bold text-lg whitespace-nowrap"
-        >
-          <UIcon :name="tech.icon" class="w-8 h-8 grayscale group-hover:grayscale-0 transition-all duration-300" />
-          <span>{{ tech.name }}</span>
-        </div>
+    <div class="mb-12 relative">
+      <div class="flex justify-center mb-4">
+        <span class="text-xs font-semibold tracking-widest text-primary-500 uppercase bg-primary-500/10 px-3 py-1 rounded-full border border-primary-500/20">
+          Languages & Frameworks
+        </span>
       </div>
-
-      <div class="flex animate-marquee gap-12 min-w-full px-6" aria-hidden="true">
-        <div 
-          v-for="(tech, i) in stacks" 
-          :key="i + 'dup'"
-          class="flex items-center gap-3 text-slate-400 font-mono font-bold text-lg whitespace-nowrap"
-        >
-          <UIcon :name="tech.icon" class="w-8 h-8 grayscale group-hover:grayscale-0 transition-all duration-300" />
-          <span>{{ tech.name }}</span>
+      
+      <div class="flex overflow-hidden relative fade-mask">
+        <div class="flex gap-4 animate-marquee whitespace-nowrap py-2">
+          <div 
+            v-for="(tech, i) in [...languages, ...languages, ...languages]" 
+            :key="i"
+            class="flex items-center gap-2 bg-gray-900/80 border border-gray-700/50 px-4 py-2 rounded-lg hover:border-primary-500/50 hover:bg-gray-800 transition-all cursor-default group shrink-0 min-w-max"
+          >
+            <img :src="tech.icon" :alt="tech.name" class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <span class="text-gray-300 font-medium font-mono text-sm">{{ tech.name }}</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="relative">
+      <div class="flex justify-center mb-4">
+        <span class="text-xs font-semibold tracking-widest text-purple-400 uppercase bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">
+          Tools & Infrastructure
+        </span>
+      </div>
+
+      <div class="flex overflow-hidden relative fade-mask">
+        <div class="flex gap-4 animate-marquee-reverse whitespace-nowrap py-2">
+           <div 
+            v-for="(tool, i) in [...tools, ...tools, ...tools]" 
+            :key="i"
+            class="flex items-center gap-2 bg-gray-900/80 border border-gray-700/50 px-4 py-2 rounded-lg hover:border-purple-500/50 hover:bg-gray-800 transition-all cursor-default group shrink-0 min-w-max"
+          >
+            <img :src="tool.icon" :alt="tool.name" class="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <span class="text-gray-300 font-medium font-mono text-sm">{{ tool.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 </template>
 
 <style scoped>
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+/* Masking untuk efek fade di kiri dan kanan layar */
+.fade-mask {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
+
+/* Animasi Jalan ke Kiri */
 .animate-marquee {
   animation: marquee 30s linear infinite;
+}
+
+/* Animasi Jalan ke Kanan (Reverse) */
+.animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+/* Pause animasi pas di-hover mouse */
+.animate-marquee:hover, 
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 </style>
