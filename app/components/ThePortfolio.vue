@@ -1,26 +1,52 @@
 <script setup lang="ts">
-// Data Project (Bisa ditambah nanti)
-const projects = [
+interface PortfolioProject {
+  title: string
+  category: string
+  description: string
+  image: string
+  tech: string[]
+  link: string
+  status: string
+  mobileLink?: string
+  mobileLabel?: string
+}
+
+const projects: PortfolioProject[] = [
   {
-    title: 'Enterprise ERP System',
+    title: 'ERP Kontraktor',
     category: 'Fullstack Web',
-    description: 'Sistem manajemen terintegrasi untuk klien korporat. Mengelola stok, keuangan, dan HRD dengan performa tinggi.',
+    description: 'Sistem ERP untuk operasional perusahaan kontraktor, inventaris, keuangan, dan HRD, dilengkapi aplikasi mobile karyawan.',
     image: '/images/Coming_Soon.png', // Ganti dengan screenshot aslimu nanti
     tech: ['Nuxt.js', 'Nest.js', 'PostgreSQL', 'Docker'],
-    link: '#', // Link ke demo atau github
-    status: 'Completed'
+    link: 'https://erp-app.bersamabintangbersinar.com/login',
+    mobileLink: 'https://erp-pwa.bersamabintangbersinar.com',
+    mobileLabel: 'PWA Demo',
+    status: 'Live Demo'
   },
   {
-    title: 'Inventory Management App',
+    title: 'Inventory Management + POS',
     category: 'Fullstack Web',
-    description: 'Aplikasi manajemen inventaris berbasis web yang memungkinkan pengelolaan stok barang secara real-time dengan fitur pencarian dan laporan.',
+    description: 'Sistem pengelolaan inventaris dan penjualan dengan CMS serta aplikasi POS berbasis PWA untuk operasional bisnis fashion.',
     image: '/images/Coming_Soon.png', // Ganti dengan screenshot aslimu nanti
     tech: ['Nuxt.js', 'Nest.js', 'PostgreSQL', 'Docker'],
-    link: '#', // Link ke demo atau github
-    status: 'Completed'
+    link: 'https://app-pos.bersamabintangbersinar.com/login',
+    mobileLink: 'https://pwa-pos.bersamabintangbersinar.com',
+    mobileLabel: 'POS Demo',
+    status: 'Live Demo'
   },
   {
-    title: 'FiveM Server',
+    title: 'ERP ALKES',
+    category: 'Fullstack Web',
+    description: 'Demo ERP alat kesehatan untuk pengelolaan operasional, inventaris, dan keuangan, dilengkapi akses mobile melalui PWA.',
+    image: '/images/Coming_Soon.png',
+    tech: ['Nuxt.js', 'Nest.js', 'PostgreSQL', 'Docker'],
+    link: 'https://erp-alkes-app.dndtech.my.id/login',
+    mobileLink: 'https://erp-alkes-pwa.dndtech.my.id',
+    mobileLabel: 'PWA Demo',
+    status: 'Live Demo'
+  },
+  {
+    title: 'FiveM Server Development',
     category: 'Game Dev',
     description: 'Custom Framework Qbox dengan fitur Banking System (Renewed), Phone (NPWD), dan script anti-cheat custom.',
     image: '/images/Coming_Soon.png',
@@ -29,7 +55,7 @@ const projects = [
     status: 'Live'
   },
   {
-    title: 'Roblox System',
+    title: 'Roblox Game Development',
     category: 'Game Dev',
     description: 'Membuat map dengan tema club house, muncak gunung, dan Map hangout bersama teman-teman di Roblox.',
     image: '/images/Coming_Soon.png',
@@ -41,7 +67,7 @@ const projects = [
 </script>
 
 <template>
-  <section class="py-24 relative z-10">
+  <section id="projects" class="py-24 relative z-10">
     <div class="container mx-auto px-6">
       
       <div class="mb-16">
@@ -56,18 +82,15 @@ const projects = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
         <div 
-          v-for="(item, index) in projects" 
-          :key="index"
+          v-for="item in projects"
+          :key="item.title"
           class="group relative bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden hover:border-primary-500/50 transition-all duration-300 hover:-translate-y-2"
         >
           <div class="aspect-video bg-gray-800 relative overflow-hidden">
-            <div v-if="!item.image.includes('jpg')" class="absolute inset-0 flex items-center justify-center text-gray-600">
-              <span class="text-4xl">🖼️</span>
-            </div>
             <img 
-              v-else
               :src="item.image" 
-              alt="Project Thumbnail" 
+              :alt="item.title"
+              loading="lazy"
               class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
             />
             
@@ -77,6 +100,7 @@ const projects = [
           </div>
 
           <div class="p-6">
+            <p class="text-xs font-medium text-primary-300 mb-3">{{ item.status }}</p>
             <div class="flex justify-between items-start mb-4">
               <h3 class="text-xl font-bold text-white group-hover:text-primary-400 transition-colors">
                 {{ item.title }}
@@ -97,13 +121,29 @@ const projects = [
               </span>
             </div>
 
-            <a 
+            <div class="flex flex-wrap items-center gap-5">
+            <a
               :href="item.link" 
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="`${item.status === 'Live Demo' ? 'Live Demo' : 'View Project'}: ${item.title} (tab baru)`"
               class="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-primary-400 transition-colors"
             >
-              View Project 
+              {{ item.status === 'Live Demo' ? 'Live Demo' : 'View Project' }}
               <span class="text-lg">→</span>
             </a>
+            <a
+              v-if="item.mobileLink"
+              :href="item.mobileLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="`${item.mobileLabel}: ${item.title} (tab baru)`"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-primary-300 hover:text-primary-400 transition-colors"
+            >
+              {{ item.mobileLabel }}
+              <span class="text-lg">↗</span>
+            </a>
+            </div>
           </div>
         </div>
 
