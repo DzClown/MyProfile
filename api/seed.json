@@ -1,0 +1,195 @@
+{
+  "site": {
+    "name": "DND Tech",
+    "eyebrow": "INDEPENDENT DEVELOPMENT TEAM",
+    "headline": "Ide Anda. Kami bangun jadi nyata.",
+    "description": "Tim pengembang yang membangun aplikasi bisnis, sistem ERP, dan pengalaman game. Dari kebutuhan pertama hingga aplikasi berjalan di server Anda.",
+    "email": "alvinyosua@gmail.com",
+    "whatsapp": "https://wa.me/6285161321196",
+    "logo": "/images/dnd_tech.webp",
+    "footer": "Dibangun dengan perhatian pada setiap detail.",
+    "seoTitle": "DND Tech — Web, ERP & Game Development",
+    "seoDescription": "DND Tech membangun aplikasi web, ERP, inventory, POS, dan sistem game. Kenali tim kami dan jelajahi demo project."
+  },
+  "sections": {
+    "servicesTitle": "Dari proses bisnis ke produk digital.",
+    "teamTitle": "Orang di balik setiap solusi.",
+    "projectsTitle": "Bukan sekadar konsep. Coba langsung.",
+    "experienceTitle": "Perjalanan Alvin",
+    "contactTitle": "Mari bangun sesuatu yang berguna.",
+    "contactDescription": "Ceritakan kebutuhan bisnis atau project Anda. Kami bantu menyusun langkah berikutnya."
+  },
+  "services": [
+    {
+      "title": "Business applications",
+      "description": "ERP kontraktor dan alat kesehatan, inventory, POS, serta aplikasi internal yang mengikuti alur kerja bisnis Anda."
+    },
+    {
+      "title": "Web & infrastructure",
+      "description": "Frontend Nuxt, backend NestJS, integrasi API, dan deployment dengan Docker di infrastruktur milik Anda."
+    },
+    {
+      "title": "Game & community",
+      "description": "Pengembangan FiveM, Roblox, dan bot Discord untuk pengalaman komunitas yang terhubung."
+    }
+  ],
+  "members": [
+    {
+      "name": "Alvin Yosua",
+      "role": "Fullstack Engineer",
+      "bio": "Self-taught developer sejak 2020. Berawal dari bot Discord, kini berfokus pada aplikasi bisnis berbasis Node.js serta infrastruktur dan sistem game multiplayer.",
+      "image": "",
+      "skills": [
+        "NestJS",
+        "Nuxt",
+        "TypeScript",
+        "FiveM",
+        "Discord"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/DzClown"
+        },
+        {
+          "label": "LinkedIn",
+          "url": "https://www.linkedin.com/in/alvinyosua/"
+        }
+      ],
+      "published": false
+    },
+    {
+      "name": "Jehezkiel",
+      "role": "Marketing",
+      "bio": "",
+      "image": "",
+      "skills": [],
+      "links": [],
+      "published": false
+    }
+  ],
+  "projects": [
+    {
+      "title": "ERP Kontraktor",
+      "category": "Fullstack Web",
+      "description": "Sistem ERP untuk operasional perusahaan kontraktor, inventaris, keuangan, dan HRD, dilengkapi aplikasi mobile karyawan.",
+      "image": "/images/Coming_Soon.png",
+      "link": "https://erp-app.bersamabintangbersinar.com/login",
+      "mobileLink": "https://erp-pwa.bersamabintangbersinar.com",
+      "mobileLabel": "PWA Demo",
+      "status": "Live Demo",
+      "tech": [
+        "Nuxt.js",
+        "Nest.js",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "published": true
+    },
+    {
+      "title": "Inventory Management + POS",
+      "category": "Fullstack Web",
+      "description": "Sistem pengelolaan inventaris dan penjualan dengan CMS serta aplikasi POS berbasis PWA untuk operasional bisnis fashion.",
+      "image": "/images/Coming_Soon.png",
+      "link": "https://app-pos.bersamabintangbersinar.com/login",
+      "mobileLink": "https://pwa-pos.bersamabintangbersinar.com",
+      "mobileLabel": "POS Demo",
+      "status": "Live Demo",
+      "tech": [
+        "Nuxt.js",
+        "Nest.js",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "published": true
+    },
+    {
+      "title": "ERP ALKES",
+      "category": "Fullstack Web",
+      "description": "Demo ERP alat kesehatan untuk pengelolaan operasional, inventaris, dan keuangan, dilengkapi akses mobile melalui PWA.",
+      "image": "/images/Coming_Soon.png",
+      "link": "https://erp-alkes-app.dndtech.my.id/login",
+      "mobileLink": "https://erp-alkes-pwa.dndtech.my.id",
+      "mobileLabel": "PWA Demo",
+      "status": "Live Demo",
+      "tech": [
+        "Nuxt.js",
+        "Nest.js",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "published": true
+    },
+    {
+      "title": "FiveM Server Development",
+      "category": "Game Dev",
+      "description": "Custom Framework Qbox dengan fitur Banking System (Renewed), Phone (NPWD), dan script anti-cheat custom.",
+      "image": "/images/Coming_Soon.png",
+      "link": "https://cfx.re/join/93dxpa",
+      "status": "Live",
+      "tech": [
+        "Lua",
+        "React",
+        "MySQL",
+        "Digital Ocean"
+      ],
+      "published": true,
+      "mobileLink": "",
+      "mobileLabel": "PWA Demo"
+    },
+    {
+      "title": "Roblox Game Development",
+      "category": "Game Dev",
+      "description": "Membuat map dengan tema club house, muncak gunung, dan Map hangout bersama teman-teman di Roblox.",
+      "image": "/images/Coming_Soon.png",
+      "link": "https://www.roblox.com/communities/612582557/SF-STUDIO#!/about",
+      "status": "Prototype",
+      "tech": [
+        "Luau",
+        "Roblox Studio",
+        "Blender"
+      ],
+      "published": true,
+      "mobileLink": "",
+      "mobileLabel": "PWA Demo"
+    }
+  ],
+  "technologies": [
+    "NestJS",
+    "Nuxt",
+    "Vue",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Docker",
+    "Redis",
+    "Lua",
+    "Roblox Studio"
+  ],
+  "experience": [
+    {
+      "period": "Mei 2024 – Februari 2025",
+      "role": "Fullstack Developer",
+      "organization": "PT. JIC",
+      "description": "Maintenance dan pengembangan ERP berbasis Node.js dan Vue.js, serta pengelolaan infrastruktur game server."
+    },
+    {
+      "period": "September 2022 – April 2024",
+      "role": "Fullstack Developer",
+      "organization": "PT. Adya Artha Abadi",
+      "description": "Mengelola ERP Epicor dan ERP M.A.S, membangun support web dengan CodeIgniter 4 dan inventory system."
+    },
+    {
+      "period": "2020 – Sekarang",
+      "role": "Freelance & Open Source",
+      "organization": "Independent",
+      "description": "Membangun bot Discord, antarmuka dan sistem FiveM, serta aplikasi web."
+    },
+    {
+      "period": "2015 – 2018",
+      "role": "Hotel Management",
+      "organization": "Akademi Pariwisata Bandung",
+      "description": "Latar belakang hospitality yang membentuk pendekatan pelayanan dan pemahaman proses bisnis."
+    }
+  ]
+}

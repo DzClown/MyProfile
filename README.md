@@ -1,75 +1,11 @@
-# Nuxt Minimal Starter
+# DND Tech Profile
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Profil tim DND Tech dengan Nuxt 4 dan CMS NestJS. Mendukung profil anggota draft/publish, portfolio/demo, layanan, SEO, teknologi, pengalaman, kontak, dan upload screenshot. Data tersimpan di SQLite pada volume Pelican.
 
-## Setup
+Domain: https://dndtech.my.id · CMS: https://dndtech.my.id/admin
 
-Make sure to install dependencies:
+Lihat [DEPLOYMENT.md](DEPLOYMENT.md) untuk development, build, testing, backup, dan deployment. Node.js 24 wajib.
 
-```bash
-# npm
-npm install
+`npm ci` · `npm --prefix api ci` · `npm run typecheck` · `npm run build` · `npm --prefix api test`
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Deploy produksi menggunakan Pelican, bukan Vercel.
