@@ -20,6 +20,7 @@ const move = (index: number, offset: number) => { const next = [...props.modelVa
   </div>
   <div v-else-if="modelValue !== null && typeof modelValue === 'object'" class="editor-object"><div v-for="(value, key) in modelValue" :key="key" class="editor-field"><span>{{ labels[String(key)] || key }}</span><ContentFields :model-value="value" :path="path ? `${path}.${String(key)}` : String(key)" @update:model-value="update(String(key), $event)" /></div></div>
   <label v-else-if="typeof modelValue === 'boolean'" class="checkbox-label"><input type="checkbox" :checked="modelValue" @change="emit('update:modelValue', ($event.target as HTMLInputElement).checked)">{{ modelValue ? 'Dipublikasikan' : 'Draft — tidak terlihat di website' }}</label>
+  <ImageUploadField v-else-if="['image', 'logo'].includes(field)" :model-value="modelValue" :label="labels[field] || 'Gambar'" @update:model-value="emit('update:modelValue', $event)" />
   <textarea v-else-if="['description', 'bio', 'footer', 'seoDescription', 'contactDescription'].includes(field)" :aria-label="labels[field] || field" :value="modelValue" rows="4" @input="emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)" />
   <input v-else :aria-label="labels[field] || field || 'Nilai'" :value="modelValue" type="text" @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)">
 </template>

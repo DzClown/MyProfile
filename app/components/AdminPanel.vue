@@ -2,7 +2,7 @@
 import type { Content } from '../../shared/content'
 useSeoMeta({ title: 'CMS — DND Tech', robots: 'noindex, nofollow' })
 const username = ref(''), password = ref(''), csrf = ref(''), loading = ref(false), message = ref(''), failed = ref(false), dirty = ref(false)
-const draft = ref<Content | null>(null), revision = ref(0), selected = ref<keyof Content>('site'), mediaUrl = ref('')
+const draft = ref<Content | null>(null), revision = ref(0), selected = ref<keyof Content>('site')
 const sections: { key: keyof Content; label: string }[] = [{ key: 'site', label: 'Identitas & SEO' }, { key: 'sections', label: 'Judul bagian' }, { key: 'services', label: 'Layanan' }, { key: 'members', label: 'Anggota tim' }, { key: 'projects', label: 'Portfolio & demo' }, { key: 'technologies', label: 'Teknologi' }, { key: 'experience', label: 'Pengalaman Alvin' }]
 function report(error: any) { failed.value = true; message.value = error?.data?.message || 'Permintaan gagal. Silakan coba kembali.'; if (error?.status === 401 || error?.statusCode === 401) { draft.value = null; csrf.value = ''; message.value = 'Sesi berakhir. Login kembali.' } }
 async function load() { const result = await $fetch<{ content: Content; revision: number }>('/api/admin/content'); draft.value = result.content; revision.value = result.revision; dirty.value = false }
@@ -10,7 +10,25 @@ async function login() { loading.value = true; message.value = ''; try { const r
 async function save() { loading.value = true; failed.value = false; message.value = ''; try { const result = await $fetch<{ content: Content; revision: number }>('/api/admin/content', { method: 'PUT', headers: { 'x-csrf-token': csrf.value }, body: { revision: revision.value, content: draft.value } }); revision.value = result.revision; dirty.value = false; message.value = 'Konten tersimpan. Website sudah diperbarui.' } catch (error) { report(error) } finally { loading.value = false } }
 async function logout() { if (dirty.value && !confirm('Keluar tanpa menyimpan perubahan?')) return; try { await $fetch('/api/auth/logout', { method: 'POST', headers: { 'x-csrf-token': csrf.value } }); draft.value = null; csrf.value = ''; dirty.value = false } catch (error) { report(error) } }
 function updateSection(value: any) { if (draft.value) { (draft.value as any)[selected.value] = value; dirty.value = true } }
-async function upload(event: Event) { const input = event.target as HTMLInputElement; const file = input.files?.[0]; if (!file) return; if (file.size > 5 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { failed.value = true; message.value = 'Gunakan PNG, JPG, atau WebP maksimal 5 MB.'; return } loading.value = true; try { const data = await new Promise<string>((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result).split(',')[1]!); reader.onerror = reject; reader.readAsDataURL(file) }); const result = await $fetch<{ url: string }>('/api/admin/uploads', { method: 'POST', headers: { 'x-csrf-token': csrf.value }, body: { data } }); mediaUrl.value = result.url; failed.value = false; message.value = 'Gambar tersimpan di fivemanage-lite. Salin URL ke kolom gambar atau logo yang sesuai, lalu simpan.' } catch (error) { report(error) } finally { loading.value = false; input.value = '' } }
+async function uploadImage(file: File): Promise<string> {
+  if (file.size > 5 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('Gunakan PNG, JPG, atau WebP maksimal 5 MB.')
+  loading.value = true
+  message.value = ''
+  try {
+    const data = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(String(reader.result).split(',')[1]!)
+      reader.onerror = () => reject(new Error('Gambar tidak dapat dibaca.'))
+      reader.readAsDataURL(file)
+    })
+    const result = await $fetch<{ url: string }>('/api/admin/uploads', { method: 'POST', headers: { 'x-csrf-token': csrf.value }, body: { data } })
+    return result.url
+  } catch (error) {
+    report(error)
+    throw new Error(message.value)
+  } finally { loading.value = false }
+}
+provide('uploadImage', uploadImage)
 const beforeUnload = (event: BeforeUnloadEvent) => { if (dirty.value) { event.preventDefault(); event.returnValue = '' } }
 onMounted(async () => { window.addEventListener('beforeunload', beforeUnload); try { const session = await $fetch<{ csrf: string }>('/api/auth/session'); csrf.value = session.csrf; await load() } catch { /* An anonymous visitor starts at the login form. */ } })
 onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
@@ -21,6 +39,6 @@ onBeforeRouteLeave(() => !dirty.value || confirm('Tinggalkan editor tanpa menyim
     <header class="admin-header"><a class="brand" href="https://dndtech.my.id" target="_blank" rel="noopener"><img src="/images/dnd_tech.webp" width="36" height="36" alt=""><span>DND Tech <small>/ CMS</small></span></a><div v-if="draft" class="actions"><span>{{ dirty ? 'Belum disimpan' : `Revisi ${revision}` }}</span><button class="button primary" :disabled="loading" @click="save">{{ loading ? 'Memproses…' : 'Simpan perubahan' }}</button><button class="button secondary" :disabled="loading" @click="logout">Keluar</button></div></header>
     <p v-if="message" role="status" :class="['notice', { error: failed }]">{{ message }}</p>
     <form v-if="!draft" class="login-panel" @submit.prevent="login"><p class="eyebrow">CONTENT MANAGEMENT</p><h1>Selamat datang kembali.</h1><p>Kelola profil tim, portfolio, dan konten DND Tech.</p><label>Username<input v-model="username" autocomplete="username" required maxlength="100"></label><label>Password<input v-model="password" type="password" autocomplete="current-password" required maxlength="256"></label><button class="button primary" :disabled="loading">{{ loading ? 'Memproses…' : 'Masuk ke CMS' }}</button></form>
-    <div v-else class="admin-layout"><aside><nav aria-label="Bagian CMS"><button v-for="section in sections" :key="section.key" :class="{ active: selected === section.key }" @click="selected = section.key">{{ section.label }}</button></nav><section class="upload-panel"><h3>Gambar & screenshot</h3><p>Disimpan di fivemanage-lite. PNG, JPG, WebP · maksimal 5 MB. Rasio screenshot 16:9 disarankan.</p><input type="file" accept="image/png,image/jpeg,image/webp" :disabled="loading" aria-label="Unggah gambar" @change="upload"><div v-if="mediaUrl"><img :src="mediaUrl" alt="Gambar yang diunggah"><label>URL gambar<input :value="mediaUrl" readonly @focus="($event.target as HTMLInputElement).select()"></label></div></section></aside><section class="editor-panel" :aria-busy="loading"><h1>{{ sections.find(section => section.key === selected)?.label }}</h1><p>Item draft tetap tersimpan dan hanya terlihat di CMS. Aktifkan “Tampilkan di website” untuk mempublikasikan anggota atau project.</p><fieldset :disabled="loading"><ContentFields :key="selected" :model-value="draft[selected]" :path="selected" @update:model-value="updateSection" /></fieldset></section></div>
+    <div v-else class="admin-layout"><aside><nav aria-label="Bagian CMS"><button v-for="section in sections" :key="section.key" :class="{ active: selected === section.key }" :disabled="loading" @click="selected = section.key">{{ section.label }}</button></nav></aside><section class="editor-panel" :aria-busy="loading"><h1>{{ sections.find(section => section.key === selected)?.label }}</h1><p>Item draft tetap tersimpan dan hanya terlihat di CMS. Aktifkan “Tampilkan di website” untuk mempublikasikan anggota atau project.</p><fieldset :disabled="loading"><ContentFields :key="selected" :model-value="draft[selected]" :path="selected" @update:model-value="updateSection" /></fieldset></section></div>
   </main>
 </template>
