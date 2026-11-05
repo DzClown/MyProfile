@@ -1,45 +1,48 @@
 <script setup lang="ts">
 import type { Content } from '../../shared/content'
 const { data: content, error } = await useFetch<Content>('/api/content')
+const selected = ref(0)
+const projects = computed(() => content.value?.projects || [])
+const activeProject = computed(() => projects.value[selected.value] || projects.value[0])
+const number = (index: number) => String(index + 1).padStart(2, '0')
 useSeoMeta({ title: () => content.value?.site.seoTitle || 'DND Tech', description: () => content.value?.site.seoDescription || '', ogTitle: () => content.value?.site.seoTitle, ogDescription: () => content.value?.site.seoDescription })
 useHead(() => ({ link: [{ rel: 'icon', type: 'image/webp', href: content.value?.site.logo || '/images/dnd_tech.webp' }] }))
 const year = new Date().getFullYear()
 </script>
 
 <template>
-  <div v-if="content" class="site-shell">
-    <header class="site-nav wrap">
-      <a class="brand" href="#home"><img :src="content.site.logo" alt="" width="42" height="42"><span>{{ content.site.name }}</span></a>
-      <nav aria-label="Navigasi utama"><a href="#services">Layanan</a><a href="#work">Portfolio</a><a href="#team">Tim</a></nav>
-      <a class="nav-contact" href="#contact">Diskusi project <span aria-hidden="true">↗</span></a>
+  <div v-if="content" class="dnd-public">
+    <a class="dnd-skip" href="#main">Lewati navigasi</a>
+    <header class="dnd-nav dnd-container">
+      <a class="dnd-brand" href="#home"><img :src="content.site.logo" alt="" width="38" height="38"><span>{{ content.site.name }}<small>SOFTWARE & DIGITAL SYSTEMS</small></span></a>
+      <nav aria-label="Navigasi utama"><a href="#work">Karya <sup>{{ number(projects.length - 1) }}</sup></a><a href="#studio">Studio</a><a href="#contact">Hubungi kami <span aria-hidden="true">↗</span></a></nav>
     </header>
-    <main id="home">
-      <section class="hero wrap">
-        <div class="hero-copy"><p class="eyebrow"><span class="status-dot" />{{ content.site.eyebrow }}</p>
-          <h1>{{ content.site.headline }}</h1><p class="lead">{{ content.site.description }}</p>
-          <div class="actions"><a class="button primary" href="#work">Jelajahi karya <span aria-hidden="true">↗</span></a><a class="text-link" href="#team">Kenali tim kami <span aria-hidden="true">→</span></a></div>
-          <div class="hero-note"><span>WEB APPLICATIONS</span><span>BUSINESS SYSTEMS</span><span>GAME DEVELOPMENT</span></div>
+    <main id="main">
+      <section id="home" class="dnd-hero dnd-container">
+        <div class="dnd-hero-caption"><span>{{ content.site.eyebrow }}</span><span>WEB / BUSINESS / PLAY</span></div>
+        <div class="dnd-wordmark"><h1>{{ content.site.name }}</h1><svg class="dnd-sigil" viewBox="0 0 160 160" aria-hidden="true"><path class="sigil-outline" d="M80 8 142 44v72l-62 36-62-36V44Z"/><path class="sigil-cyan" d="m80 40 46 70H34Z"/><path class="sigil-gold" d="M80 8v32M18 44l62-4 62 4M18 44l16 66 46 42 46-42 16-66M18 116l16-6M126 110l16 6"/><circle cx="80" cy="40" r="3"/><circle cx="34" cy="110" r="3"/><circle cx="126" cy="110" r="3"/><path d="M80 0v16M80 144v16M0 80h16M144 80h16"/></svg></div>
+        <div class="dnd-intro"><a class="dnd-index-link" href="#work"><span class="dnd-cross" aria-hidden="true">+</span> JELAJAHI KARYA <span aria-hidden="true">↓</span></a><div><h2>{{ content.site.headline }}</h2><p>{{ content.site.description }}</p></div></div>
+        <div class="dnd-hero-rule"><span>DESIGN MEETS ENGINEERING</span><span>SCROLL TO EXPLORE ↓</span></div>
+      </section>
+      <section id="work" class="dnd-work dnd-container">
+        <div class="dnd-section-label"><span>01 / PROJECT INDEX</span><span>{{ String(projects.length).padStart(2, '0') }} PROJECTS</span></div>
+        <div class="dnd-work-heading"><h2>Karya<span class="dnd-period">.</span></h2><p>{{ content.sections.projectsTitle }}</p></div>
+        <div v-if="activeProject" class="dnd-workbench">
+          <div class="dnd-project-index" role="group" aria-label="Pilih project untuk melihat detail"><button v-for="(project, index) in projects" :key="project.title" :aria-pressed="activeProject === project" :class="{ selected: activeProject === project }" aria-controls="project-detail" @click="selected = index"><span class="dnd-project-number">{{ number(index) }}</span><span><strong>{{ project.title }}</strong><small>{{ project.category }}</small></span><span class="dnd-index-arrow" aria-hidden="true">↗</span></button></div>
+          <article id="project-detail" class="dnd-project-detail" aria-live="polite" aria-atomic="true" :aria-label="activeProject.title">
+            <div class="dnd-project-visual" :class="{ 'is-game': activeProject.category === 'Game Dev' }"><img v-if="activeProject.image && !activeProject.image.includes('Coming_Soon')" :src="activeProject.image" :alt="activeProject.title" width="960" height="600" loading="lazy"><div v-else class="dnd-project-poster"><div class="dnd-poster-meta"><span>{{ activeProject.category }}</span><span>DND / {{ number(projects.indexOf(activeProject)) }}</span></div><strong>{{ activeProject.title }}</strong><div class="dnd-poster-bottom"><span v-for="tech in activeProject.tech.slice(0, 3)" :key="tech">{{ tech }}</span></div><svg viewBox="0 0 260 260" aria-hidden="true"><path d="M130 8 236 69v122l-106 61-106-61V69Z M130 60 207 180H53Z M130 8v52 M24 69l106-9 106 9M24 69l29 111 77 72 77-72 29-111M24 191l29-11M207 180l29 11"/></svg></div></div>
+            <div class="dnd-project-info"><div class="dnd-project-title"><h3>{{ activeProject.title }}</h3><span>{{ activeProject.status }}</span></div><p>{{ activeProject.description }}</p><ul class="dnd-tech-list"><li v-for="tech in activeProject.tech" :key="tech">{{ tech }}</li></ul><div class="dnd-demo-links"><a v-if="activeProject.link" :href="activeProject.link" target="_blank" rel="noopener noreferrer">{{ activeProject.mobileLink ? 'Buka web demo' : 'Lihat project' }} <span aria-hidden="true">↗</span></a><a v-if="activeProject.mobileLink" :href="activeProject.mobileLink" target="_blank" rel="noopener noreferrer">{{ activeProject.mobileLabel }} <span aria-hidden="true">↗</span></a></div></div>
+          </article>
         </div>
-        <div class="brand-panel" aria-label="DND Tech — development studio"><div class="panel-top"><span>DESIGN · DEVELOP · DELIVER</span><span class="status-dot" /></div><img :src="content.site.logo" :alt="content.site.name" width="280" height="280"><div class="panel-bottom"><span>BUILT WITH PURPOSE.</span><span>01 / DND</span></div></div>
+        <p v-else class="dnd-empty">Project sedang disiapkan.</p>
       </section>
-      <div class="tech-strip"><div class="wrap"><span class="eyebrow">OUR TOOLKIT</span><ul><li v-for="tech in content.technologies" :key="tech">{{ tech }}</li></ul></div></div>
-      <section id="services" class="section wrap"><div class="section-heading"><p class="eyebrow">01 / WHAT WE DO</p><h2>{{ content.sections.servicesTitle }}</h2></div>
-        <div class="service-grid"><article v-for="(service, index) in content.services" :key="index"><span class="service-number">0{{ index + 1 }}</span><h3>{{ service.title }}</h3><p>{{ service.description }}</p></article></div>
-      </section>
-      <section id="work" class="section work-section"><div class="wrap"><div class="section-heading"><p class="eyebrow">02 / SELECTED WORK</p><h2>{{ content.sections.projectsTitle }}</h2></div>
-        <div class="project-grid"><article v-for="(project, index) in content.projects" :key="index" class="project-card">
-          <div class="project-image"><img v-if="project.image && !project.image.includes('Coming_Soon')" :src="project.image" :alt="project.title" loading="lazy"><div v-else class="project-cover"><span class="cover-index">PROJECT / 0{{ index + 1 }}</span><strong>{{ project.title }}</strong><span>DND TECH — SELECTED WORK</span></div><span class="category">{{ project.category }}</span></div>
-          <div class="project-body"><p class="project-status">{{ project.status }}</p><h3>{{ project.title }}</h3><p>{{ project.description }}</p><ul class="tags"><li v-for="tech in project.tech" :key="tech">{{ tech }}</li></ul><div class="project-links"><a :href="project.link" target="_blank" rel="noopener noreferrer" :aria-label="`${project.title} — ${project.mobileLink ? 'Live Demo' : 'Lihat project'} (tab baru)`">{{ project.mobileLink ? 'Live Demo' : 'Lihat project' }} ↗</a><a v-if="project.mobileLink" :href="project.mobileLink" target="_blank" rel="noopener noreferrer" :aria-label="`${project.title} — ${project.mobileLabel} (tab baru)`">{{ project.mobileLabel }} ↗</a></div></div>
-        </article></div>
-      </div></section>
-      <section id="team" class="section wrap"><div class="section-heading"><p class="eyebrow">03 / THE PEOPLE</p><h2>{{ content.sections.teamTitle }}</h2></div>
-        <div v-if="content.members.length" class="team-grid"><article v-for="(member, index) in content.members" :key="index" class="member-card"><img v-if="member.image" :src="member.image" :alt="member.name" loading="lazy"><div v-else class="member-initial">{{ member.name.charAt(0) }}</div><p class="eyebrow">{{ member.role }}</p><h3>{{ member.name }}</h3><p>{{ member.bio }}</p><ul class="tags"><li v-for="skill in member.skills" :key="skill">{{ skill }}</li></ul><div class="project-links"><a v-for="link in member.links" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a></div></article></div>
-        <div v-else class="team-placeholder"><span class="eyebrow">DND TECH / TEAM</span><p>Kenali lebih dekat tim kami. Profil anggota segera hadir.</p></div>
-        <div v-if="content.experience.length" class="experience"><h3>{{ content.sections.experienceTitle }}</h3><article v-for="(item, index) in content.experience" :key="index"><span>{{ item.period }}</span><div><h4>{{ item.role }}</h4><strong>{{ item.organization }}</strong><p>{{ item.description }}</p></div></article></div>
-      </section>
-      <section id="contact" class="section contact-section wrap"><p class="eyebrow">LET’S TALK</p><h2>{{ content.sections.contactTitle }}</h2><p class="lead">{{ content.sections.contactDescription }}</p><div class="actions"><a v-if="content.site.whatsapp" class="button primary" :href="content.site.whatsapp" target="_blank" rel="noopener noreferrer">Hubungi kami ↗</a><a class="text-link" :href="`mailto:${content.site.email}`">{{ content.site.email }} ↗</a></div></section>
+      <section id="studio" class="dnd-studio"><div class="dnd-container"><div class="dnd-section-label"><span>02 / THE PRACTICE</span><span>{{ content.site.name }}</span></div><div class="dnd-studio-heading"><h2>{{ content.sections.servicesTitle }}</h2><span class="dnd-studio-note">DARI KEBUTUHAN.<br>KE SISTEM YANG BERJALAN.</span></div><div class="dnd-services"><article v-for="(service, index) in content.services" :key="index"><span class="dnd-service-index">{{ number(index) }}</span><h3>{{ service.title }}</h3><p>{{ service.description }}</p><span class="dnd-service-mark" aria-hidden="true">+</span></article></div><div class="dnd-toolkit"><span>TECHNOLOGIES<br>& TOOLS</span><ul><li v-for="tech in content.technologies" :key="tech">{{ tech }}</li></ul></div></div></section>
+      <section id="team" class="dnd-team dnd-container"><div class="dnd-section-label"><span>03 / THE PEOPLE</span><span>HUMANS BEHIND THE SYSTEMS</span></div><h2>{{ content.sections.teamTitle }}</h2><div v-if="content.members.length" class="dnd-members"><article v-for="(member, index) in content.members" :key="index"><div class="dnd-member-portrait"><img v-if="member.image" :src="member.image" :alt="member.name" loading="lazy"><span v-else>{{ member.name.charAt(0) }}</span><span class="dnd-member-index">{{ number(index) }}</span></div><div class="dnd-member-bio"><span class="dnd-mono">{{ member.role }}</span><h3>{{ member.name }}</h3><p>{{ member.bio }}</p><ul class="dnd-tech-list"><li v-for="skill in member.skills" :key="skill">{{ skill }}</li></ul><div class="dnd-person-links"><a v-for="link in member.links" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a></div></div></article></div><div v-else class="dnd-team-draft"><span class="dnd-cross" aria-hidden="true">+</span><p>Profil anggota tim sedang disiapkan.</p><a href="#contact">Kenalan langsung ↗</a></div><div v-if="content.experience.length" class="dnd-career"><h3>{{ content.sections.experienceTitle }}</h3><article v-for="(item, index) in content.experience" :key="index"><span>{{ item.period }}</span><div><h4>{{ item.role }} <small>{{ item.organization }}</small></h4><p>{{ item.description }}</p></div></article></div></section>
+      <section id="contact" class="dnd-contact"><div class="dnd-container"><div class="dnd-section-label"><span>04 / START A CONVERSATION</span><span aria-hidden="true">↗</span></div><div class="dnd-contact-heading"><h2>{{ content.sections.contactTitle }}</h2><p>{{ content.sections.contactDescription }}</p></div><a class="dnd-email" :href="`mailto:${content.site.email}`">{{ content.site.email }} <span aria-hidden="true">↗</span></a><a v-if="content.site.whatsapp" class="dnd-whatsapp" :href="content.site.whatsapp" target="_blank" rel="noopener noreferrer">Mulai percakapan di WhatsApp <span aria-hidden="true">↗</span></a></div></section>
     </main>
-    <footer class="site-footer wrap"><span>© {{ year }} {{ content.site.name }}</span><span>{{ content.site.footer }}</span><a href="#home">Kembali ke atas ↑</a></footer>
+    <footer class="dnd-footer dnd-container"><a href="#home" class="dnd-footer-brand">{{ content.site.name }}</a><p>{{ content.site.footer }}</p><span>© {{ year }}</span><a href="#home">Kembali ke atas ↑</a></footer>
   </div>
-  <main v-else class="wrap section"><h1>DND Tech</h1><p role="alert">{{ error ? 'Konten belum dapat dimuat. Silakan coba kembali.' : 'Memuat profil…' }}</p><button class="button" @click="refreshNuxtData()">Coba lagi</button></main>
+  <main v-else class="dnd-public dnd-container dnd-error"><h1>DND Tech</h1><p role="alert">{{ error ? 'Konten belum dapat dimuat. Silakan coba kembali.' : 'Memuat profil…' }}</p><button @click="refreshNuxtData()">Coba lagi</button></main>
 </template>
+
+<style src="../assets/css/public-profile.css"></style>
