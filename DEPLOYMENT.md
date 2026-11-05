@@ -1,14 +1,14 @@
 # DND Tech Profile
 
-Nuxt frontend + NestJS API (Node.js 24). Konten disimpan di SQLite dengan riwayat 50 revisi dan upload WebP dalam `data/`. Dua profil awal merupakan draft, bukan profil publik.
+Nuxt frontend + NestJS API (Node.js 24). Konten disimpan di SQLite dengan riwayat 50 revisi dalam `data/`; gambar WebP disimpan di fivemanage-lite. Dua profil awal merupakan draft, bukan profil publik.
 
 ## Development
 
 1. Root: `npm ci`; API: `npm --prefix api ci`.
 2. `npm --prefix api run build`.
-3. `PUBLIC_ORIGIN=http://localhost:3000 node scripts/create-admin.mjs` (PowerShell: atur env melalui `$env:PUBLIC_ORIGIN`). Ambil kredensial dari `data/admin-initial.txt` secara privat.
+3. `ADMIN_ORIGIN=http://localhost:3000 node scripts/create-admin.mjs` (PowerShell: atur env melalui `$env:ADMIN_ORIGIN`). Ambil kredensial dari `data/admin-initial.txt` secara privat.
 4. Jalankan API dengan env dari `data/runtime.env` dan `NODE_ENV=development`: `node --env-file=data/runtime.env api/dist/main.js`.
-5. `npm run dev`. Buka `/admin` untuk mengelola semua konten dan unggah gambar. Salin path upload ke kolom gambar lalu simpan. Draft anggota/project tidak dikirim oleh endpoint publik.
+5. `npm run dev`. Atur `NUXT_PUBLIC_ADMIN_HOST=localhost` untuk frontend, lalu buka `http://localhost:3000` untuk mengelola semua konten dan unggah gambar. Salin path upload ke kolom gambar lalu simpan. Draft anggota/project tidak dikirim oleh endpoint publik.
 
 ## Build dan pengujian
 
@@ -42,3 +42,14 @@ Untuk mengubah password admin, hasilkan hash scrypt baru (format `salt:hash` sep
 - Pengujian backend Linux dan Windows, typecheck, build, login CMS produksi, simpan konten, dan draft anggota lulus. Tampilan desktop diperiksa. Viewport override browser tidak diterapkan oleh alat, sehingga mobile belum diverifikasi secara visual.
 
 Auto-deploy Vercel dinonaktifkan melalui `git.deploymentEnabled: false` dalam `vercel.json`; project lama tidak dihapus. [Dokumentasi Vercel](https://vercel.com/docs/project-configuration/git-configuration). Deployment Pelican berikutnya masih manual; konten CMS tersimpan langsung dan tidak memerlukan build ulang.
+
+## Subdomain CMS dan fivemanage-lite
+
+- Website publik: https://dndtech.my.id. CMS: https://profile-admin.dndtech.my.id, tanpa path `/admin`. Alamat lama `/admin` mengarah ke subdomain baru.
+- `ADMIN_ORIGIN=https://profile-admin.dndtech.my.id` digunakan untuk pemeriksaan Origin/CSRF. Cookie sesi hanya berlaku pada hostname admin. Endpoint auth/admin ditolak pada domain publik oleh Nginx dan Nuxt.
+- Hostname CMS frontend: `NUXT_PUBLIC_ADMIN_HOST` (default produksi `profile-admin.dndtech.my.id`). Development: `NUXT_PUBLIC_ADMIN_HOST=localhost` dan `ADMIN_ORIGIN=http://localhost:3000`; halaman publik dapat diperiksa dari `http://127.0.0.1:3000`.
+- `FIVEMANAGE_UPLOAD_URL=https://fivemanage.dndtech.my.id/api/v3/file`, `FIVEMANAGE_PUBLIC_ORIGIN=https://fivemanage.dndtech.my.id`, dan `FIVEMANAGE_API_KEY` hanya di environment backend privat. Token tidak masuk konfigurasi public Nuxt.
+- Token media khusus `DND Tech Profile CMS`, tim `Dnd Team`, dengan folder `DND Tech Profile`. Upload baru dikonversi WebP lalu dikirim multipart field `file`, Authorization raw token (tanpa Bearer), mengikuti kontrak API layanan yang ada. URL provider divalidasi sebelum disimpan.
+- Upload gagal mengembalikan error; tidak ada fallback penyimpanan lokal. Path `/media/` lama tetap dapat dibaca untuk kompatibilitas. Logo lama sudah dipindahkan ke fivemanage-lite.
+- Backup CMS menyimpan referensi URL; file media berada pada storage/backup fivemanage-lite.
+- Build, typecheck, pengujian upload, login browser subdomain baru, upload produksi, URL media, redirect lama, dan pemisahan API sudah diverifikasi.

@@ -1,6 +1,7 @@
 import { randomBytes, scryptSync } from 'node:crypto';
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+const origin = process.env.ADMIN_ORIGIN || process.env.PUBLIC_ORIGIN || 'https://profile-admin.dndtech.my.id';
 const directory = resolve(process.env.DATA_DIR || 'data');
 const file = resolve(directory, 'runtime.env');
 if (existsSync(file)) throw new Error('Admin configuration already exists. Back up and explicitly rotate it before rerunning.');
@@ -8,6 +9,6 @@ const password = randomBytes(24).toString('base64url');
 const salt = randomBytes(16).toString('hex');
 const hash = `${salt}:${scryptSync(password, salt, 64).toString('hex')}`;
 mkdirSync(directory, { recursive: true, mode: 0o700 });
-writeFileSync(file, `ADMIN_USERNAME=admin\nADMIN_PASSWORD_HASH=${hash}\nPUBLIC_ORIGIN=${process.env.PUBLIC_ORIGIN || 'https://dndtech.my.id'}\nDATA_DIR=${directory}\n`, { mode: 0o600, flag: 'wx' });
-writeFileSync(resolve(directory, 'admin-initial.txt'), `URL: ${(process.env.PUBLIC_ORIGIN || 'https://dndtech.my.id')}/admin\nUsername: admin\nPassword: ${password}\n`, { mode: 0o600, flag: 'wx' });
+writeFileSync(file, `ADMIN_USERNAME=admin\nADMIN_PASSWORD_HASH=${hash}\nADMIN_ORIGIN=${origin}\nDATA_DIR=${directory}\n`, { mode: 0o600, flag: 'wx' });
+writeFileSync(resolve(directory, 'admin-initial.txt'), `URL: ${origin}/\nUsername: admin\nPassword: ${password}\n`, { mode: 0o600, flag: 'wx' });
 console.log('Admin created. Retrieve data/admin-initial.txt privately; credentials were not logged.');

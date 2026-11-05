@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   css: ['~/assets/css/main.css'],
   nitro: { preset: 'node-server' },
-  runtimeConfig: { apiInternal: process.env.API_INTERNAL_URL || 'http://127.0.0.1:3101' },
+  runtimeConfig: { apiInternal: process.env.API_INTERNAL_URL || 'http://127.0.0.1:3101', public: { adminHost: 'profile-admin.dndtech.my.id' } },
   app: { head: { htmlAttrs: { lang: 'id' }, link: [{ rel: 'icon', type: 'image/webp', href: '/images/dnd_tech.webp' }] } },
-  routeRules: { '/admin': { ssr: false }, '/api/**': { cache: false } },
+  routeRules: { '/admin': { redirect: 'https://profile-admin.dndtech.my.id' }, '/api/**': { cache: false } },
 })

@@ -12,6 +12,7 @@ import { scrypt } from 'node:crypto';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import sharp from 'sharp';
+import { uploadMedia, type MediaConfig } from './media.js';
 import { contentSchema, loginSchema, saveSchema, uploadSchema, type Content } from './schema.js';
 
 export function passwordHash(password: string) {
@@ -19,7 +20,7 @@ export function passwordHash(password: string) {
   return `${salt}:${scryptSync(password, salt, 64).toString('hex')}`;
 }
 const hashSession = (value: string) => createHash('sha256').update(value).digest('hex');
-export async function createApp(config: { dataDir: string; origin: string; username: string; passwordHash: string; secure: boolean }) {
+export async function createApp(config: { dataDir: string; origin: string; username: string; passwordHash: string; secure: boolean; media?: MediaConfig }) {
   if (!config.username || !/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(config.passwordHash)) throw new Error('Configure ADMIN_USERNAME and ADMIN_PASSWORD_HASH');
   mkdirSync(config.dataDir, { recursive: true });
   const uploads = resolve(config.dataDir, 'uploads');
@@ -107,13 +108,14 @@ export async function createApp(config: { dataDir: string; origin: string; usern
       const buffer = Buffer.from(parsed.data.data, 'base64');
       if (buffer.length > 5 * 1024 * 1024) throw new BadRequestException('Gambar maksimal 5 MB');
       const filename = `${randomUUID()}.webp`;
+      let converted: Buffer;
       try {
         const image = sharp(buffer, { limitInputPixels: 25_000_000, animated: false });
         const metadata = await image.metadata();
         if (!['jpeg', 'png', 'webp'].includes(metadata.format || '')) throw new Error('Unsupported image');
-        await image.rotate().resize({ width: 2000, height: 2000, fit: 'inside', withoutEnlargement: true }).webp({ quality: 85 }).toFile(resolve(uploads, filename));
+        converted = await image.rotate().resize({ width: 2000, height: 2000, fit: 'inside', withoutEnlargement: true }).webp({ quality: 85 }).toBuffer();
       } catch { throw new BadRequestException('Gunakan gambar PNG, JPG, atau WebP yang valid'); }
-      return { url: `/media/${filename}` };
+      return uploadMedia(config.media, converted, filename);
     }
   }
   @Module({ controllers: [ProfileController] }) class AppModule {}
