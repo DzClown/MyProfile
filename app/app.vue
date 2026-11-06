@@ -51,9 +51,9 @@
                 color="primary"
                 variant="solid"
                 class="font-bold px-8"
-                @click="scrollToProjects"
+                to="https://dndtech.my.id/#work"
               >
-                View Works
+                Lihat karya tim DND
               </UButton>
               <UButton
                 size="xl"
@@ -71,8 +71,6 @@
 
       <TheTechStack />
 
-      <ThePortfolio />
-
       <TheExperience />
 
       <TheFooter />
@@ -87,10 +85,3 @@
     </div>
   </UApp>
 </template>
-
-<script setup lang="ts">
-const scrollToProjects = () => {
-  const p = document.getElementById("projects");
-  if (p) p.scrollIntoView({ behavior: "smooth" });
-};
-</script>
