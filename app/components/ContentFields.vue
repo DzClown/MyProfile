@@ -7,6 +7,7 @@ const templates: Record<string, any> = {
   projects: { title: 'Project baru', category: '', description: '', image: '', tech: [], link: '', status: 'Draft', mobileLink: '', mobileLabel: 'PWA Demo', published: false },
   links: { label: '', url: '' }, experience: { period: '', role: '', organization: '', description: '' },
 }
+const editableFields = computed(() => props.path === 'sections' ? Object.fromEntries(Object.entries(props.modelValue).filter(([key]) => key !== 'experienceTitle')) : props.modelValue)
 const field = computed(() => props.path?.split('.').pop() || '')
 const update = (key: string | number, value: any) => { const next = structuredClone(toRaw(props.modelValue)); next[key] = value; emit('update:modelValue', next) }
 const add = () => emit('update:modelValue', [...props.modelValue, structuredClone(templates[field.value] ?? '')])
@@ -18,7 +19,7 @@ const move = (index: number, offset: number) => { const next = [...props.modelVa
     <div v-for="(item, index) in modelValue" :key="index" class="editor-item"><div class="editor-item-bar"><strong>{{ typeof item === 'object' ? item.name || item.title || item.role || `Item ${index + 1}` : `Item ${index + 1}` }}</strong><div><button type="button" :disabled="index === 0" aria-label="Pindah ke atas" @click="move(index, -1)">↑</button><button type="button" :disabled="index === modelValue.length - 1" aria-label="Pindah ke bawah" @click="move(index, 1)">↓</button><button type="button" @click="remove(index)">Hapus</button></div></div><ContentFields :model-value="item" :path="`${path}.${index}`" @update:model-value="update(index, $event)" /></div>
     <button type="button" class="button secondary" @click="add">+ Tambah item</button>
   </div>
-  <div v-else-if="modelValue !== null && typeof modelValue === 'object'" class="editor-object"><div v-for="(value, key) in modelValue" :key="key" class="editor-field"><span>{{ labels[String(key)] || key }}</span><ContentFields :model-value="value" :path="path ? `${path}.${String(key)}` : String(key)" @update:model-value="update(String(key), $event)" /></div></div>
+  <div v-else-if="modelValue !== null && typeof modelValue === 'object'" class="editor-object"><div v-for="(value, key) in editableFields" :key="key" class="editor-field"><span>{{ labels[String(key)] || key }}</span><ContentFields :model-value="value" :path="path ? `${path}.${String(key)}` : String(key)" @update:model-value="update(String(key), $event)" /></div></div>
   <label v-else-if="typeof modelValue === 'boolean'" class="checkbox-label"><input type="checkbox" :checked="modelValue" @change="emit('update:modelValue', ($event.target as HTMLInputElement).checked)">{{ modelValue ? 'Dipublikasikan' : 'Draft — tidak terlihat di website' }}</label>
   <ImageUploadField v-else-if="['image', 'logo'].includes(field)" :model-value="modelValue" :label="labels[field] || 'Gambar'" @update:model-value="emit('update:modelValue', $event)" />
   <textarea v-else-if="['description', 'bio', 'footer', 'seoDescription', 'contactDescription'].includes(field)" :aria-label="labels[field] || field" :value="modelValue" rows="4" @input="emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)" />

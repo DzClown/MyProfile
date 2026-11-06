@@ -57,9 +57,7 @@ export async function createApp(config: { dataDir: string; origin: string; usern
       const { content } = document();
       content.members = content.members.filter(member => member.published);
       content.projects = content.projects.filter(project => project.published);
-      // Personal history remains private while Alvin's profile is a draft.
-      if (!document().content.members[0]?.published) content.experience = [];
-      return content;
+      return { ...content, experience: [] };
     }
     @Post('auth/login') async login(@Body() body: unknown, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
       if (req.get('origin') !== config.origin) throw new ForbiddenException();
