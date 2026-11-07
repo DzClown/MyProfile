@@ -5,3 +5,114 @@
 @media(max-width:680px){.dnd-container{width:calc(100% - 40px)}.dnd-nav{height:auto;min-height:114px;padding:20px 0;flex-direction:column;align-items:start;gap:15px}.dnd-brand{font-size:19px}.dnd-brand img{height:32px;width:32px}.dnd-brand small{font-size:7px}.dnd-nav nav{width:100%;justify-content:space-between;font-size:11px;gap:18px}.dnd-nav nav>a{min-height:34px}.dnd-nav nav>a:last-child{border:0}.dnd-hero{padding-top:22px}.dnd-hero-caption{font-size:7px;gap:15px}.dnd-hero-caption>span:first-child{max-width:52%}.dnd-wordmark{gap:15px;padding:38px 0 25px}.dnd-wordmark h1{font-size:18vw;letter-spacing:-.09em}.dnd-sigil{width:19vw;max-width:90px}.dnd-intro{grid-template-columns:1fr;gap:25px;margin-top:5px;margin-bottom:30px}.dnd-intro>div{order:-1}.dnd-intro h2{font-size:22px;letter-spacing:-.6px;margin-bottom:12px}.dnd-intro p{font-size:13px}.dnd-index-link{font-size:9px;gap:12px;min-height:35px}.dnd-cross{font-size:28px}.dnd-hero-rule{font-size:6px;letter-spacing:.5px;gap:10px}.dnd-section-label{font-size:7px;gap:15px}.dnd-work{padding:50px 0 55px}.dnd-work-heading{margin:25px 0;gap:20px}.dnd-work-heading h2{font-size:52px;letter-spacing:-3px}.dnd-work-heading>p{font-size:11px;max-width:155px}.dnd-workbench{grid-template-columns:1fr;gap:25px}.dnd-project-index button{padding-block:16px;grid-template-columns:22px 1fr 18px;align-items:center}.dnd-project-index strong{font-size:15px}.dnd-project-index small{margin-top:5px;font-size:8px}.dnd-index-arrow{opacity:1;font-size:16px}.dnd-project-visual{aspect-ratio:1.6}.dnd-project-poster{padding:20px}.dnd-project-poster>strong{font-size:32px;max-width:85%;margin:18px 0;letter-spacing:-1px}.dnd-poster-meta,.dnd-poster-bottom{font-size:7px}.dnd-poster-bottom{gap:10px}.dnd-project-info{padding-top:22px}.dnd-project-title{flex-wrap:nowrap;align-items:start;gap:15px}.dnd-project-title h3{font-size:21px;width:auto}.dnd-project-title>span{font-size:7px;margin-top:6px}.dnd-project-info>p{font-size:12px}.dnd-demo-links{margin-top:18px;gap:25px}.dnd-demo-links a{font-size:11px;gap:20px}.dnd-studio{padding:40px 0}.dnd-studio-heading{margin:32px 0 35px;display:block}.dnd-studio-heading h2{font-size:34px;letter-spacing:-1.3px}.dnd-studio-note{display:block;font-size:7px;line-height:1.7;margin-top:25px}.dnd-services article{grid-template-columns:20px 1fr 15px;gap:15px;padding:24px 0}.dnd-services h3{font-size:22px}.dnd-services p{grid-column:2;grid-row:2;font-size:12px}.dnd-service-mark{grid-column:3;grid-row:1}.dnd-toolkit{grid-template-columns:1fr;gap:18px;padding-top:28px}.dnd-toolkit>span{font-size:7px}.dnd-toolkit>span br{display:none}.dnd-toolkit ul{font-size:12px;gap:12px 20px}.dnd-team{padding:50px 0}.dnd-team>h2{font-size:33px;margin:27px 0 30px;letter-spacing:-1.3px}.dnd-team-draft{flex-wrap:wrap;padding:22px 0;gap:15px}.dnd-team-draft p{font-size:12px}.dnd-team-draft>a{font-size:11px;margin-left:43px}.dnd-members{grid-template-columns:1fr;gap:40px}.dnd-member-bio h3{font-size:25px}.dnd-career article{grid-template-columns:1fr;gap:12px}.dnd-contact{padding:35px 0}.dnd-contact-heading{display:block;margin:30px 0}.dnd-contact-heading h2{font-size:34px;letter-spacing:-1.5px}.dnd-contact-heading p{margin-top:20px;font-size:12px;max-width:100%}.dnd-email{font-size:6.4vw;letter-spacing:-.8px;gap:10px}.dnd-whatsapp{font-size:11px;gap:25px}.dnd-footer{padding:24px 0;gap:20px}.dnd-footer-brand{font-size:18px}.dnd-footer>a:last-child{margin-left:auto}.dnd-footer>span{display:none}.dnd-footer p{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.dnd-public *{scroll-behavior:auto!important;transition:none!important}}
 .dnd-public p{white-space:pre-line;overflow-wrap:anywhere}
+
+/* Public engineering theme */
+.dnd-public {
+  --paper: #0b121b;
+  --ink: #e8f1f8;
+  --sub: #a6b8cb;
+  --rule: #304256;
+  --cyan: #7de2e6;
+  --blue: #7de2e6;
+  --gold: #a4c4ff;
+  color-scheme: dark;
+}
+
+.dnd-public a:hover { color: var(--cyan); }
+.dnd-public a:focus-visible,
+.dnd-public button:focus-visible { outline-color: var(--cyan); }
+
+.engineering-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  padding: clamp(50px, 8vw, 115px) 0 clamp(45px, 6vw, 84px);
+}
+
+.engineering-copy h1 {
+  font-size: clamp(44px, 7.2vw, 104px);
+  letter-spacing: -.07em;
+  line-height: .98;
+  font-weight: 600;
+  margin-bottom: 30px;
+  overflow-wrap: anywhere;
+}
+
+.engineering-copy h1 span { display: block; color: var(--cyan); }
+.engineering-copy p { max-width: 50ch; font-size: 16px; }
+.engineering-copy .engineering-headline { color: var(--ink); font-size: 20px; margin-bottom: 10px; }
+
+.engineering-actions {
+  display: flex;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.engineering-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.engineering-actions .engineering-primary {
+  padding-inline: 16px;
+  background: var(--cyan);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+.engineering-map {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--rule);
+  background-color: #101d2b;
+  background-image: radial-gradient(#425d76 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.engineering-map figcaption,
+.engineering-map-footer {
+  padding: 14px 18px;
+  background: #132233;
+  color: var(--sub);
+  font: 10px/1.5 'IBM Plex Mono', monospace;
+  letter-spacing: .07em;
+}
+
+.engineering-map figcaption { display: flex; justify-content: space-between; border-bottom: 1px solid var(--rule); }
+.engineering-map-footer { border-top: 1px solid var(--rule); }
+.engineering-map ol { list-style: none; margin: 0; padding: 22px; display: grid; gap: 12px; }
+.engineering-map li { display: flex; align-items: center; gap: 16px; padding: 14px; border: 1px solid var(--rule); background: #0b1724; }
+.engineering-map li + li { position: relative; }
+.engineering-map li + li::before { content: ''; position: absolute; left: 28px; top: -13px; height: 12px; width: 1px; background: var(--cyan); }
+.engineering-number { color: var(--cyan); font: 11px 'IBM Plex Mono', monospace; }
+.engineering-map strong { display: block; font-size: 16px; }
+.engineering-map li div span { color: var(--sub); font: 10px/1.5 'IBM Plex Mono', monospace; }
+
+.dnd-project-index button.selected { background: #162a3b; box-shadow: inset 3px 0 var(--cyan); }
+.dnd-project-visual { background: #122e42; }
+.dnd-project-poster, .dnd-project-visual.is-game .dnd-project-poster { color: var(--ink); }
+.dnd-project-poster::before { background-image: linear-gradient(#9cd7ff12 1px, transparent 1px), linear-gradient(90deg, #9cd7ff12 1px, transparent 1px); }
+.dnd-project-poster > svg { stroke: var(--cyan); }
+.dnd-project-visual.is-game { background: #202e4e; }
+.dnd-project-title > span::before { background: var(--cyan); }
+.dnd-studio { background: #101e2c; color: var(--ink); }
+.dnd-member-portrait { background: #17293b; }
+.dnd-member-portrait > span:not(.dnd-member-index) { color: var(--cyan); }
+.dnd-contact { background: #102b3a; border-block: 1px solid var(--rule); }
+.dnd-contact-heading p { color: var(--sub); }
+.dnd-email { color: var(--cyan); border-bottom-color: var(--rule); }
+
+@media (max-width: 760px) {
+  .engineering-hero { grid-template-columns: 1fr; }
+  .engineering-copy h1 { font-size: clamp(42px, 11vw, 76px); }
+  .engineering-map ol { padding: 16px; }
+  .dnd-nav nav > a { min-height: 44px; }
+}

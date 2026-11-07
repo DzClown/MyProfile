@@ -19,10 +19,28 @@ const year = new Date().getFullYear()
     </header>
     <main id="main">
       <section id="home" class="dnd-hero dnd-container">
-        <div class="dnd-hero-caption"><span>{{ content.site.eyebrow }}</span><span>WEB / BUSINESS / PLAY</span></div>
-        <div class="dnd-wordmark"><h1>{{ content.site.name }}</h1><svg class="dnd-sigil" viewBox="0 0 160 160" aria-hidden="true"><path class="sigil-outline" d="M80 8 142 44v72l-62 36-62-36V44Z"/><path class="sigil-cyan" d="m80 40 46 70H34Z"/><path class="sigil-gold" d="M80 8v32M18 44l62-4 62 4M18 44l16 66 46 42 46-42 16-66M18 116l16-6M126 110l16 6"/><circle cx="80" cy="40" r="3"/><circle cx="34" cy="110" r="3"/><circle cx="126" cy="110" r="3"/><path d="M80 0v16M80 144v16M0 80h16M144 80h16"/></svg></div>
-        <div class="dnd-intro"><a class="dnd-index-link" href="#work"><span class="dnd-cross" aria-hidden="true">+</span> JELAJAHI KARYA <span aria-hidden="true">↓</span></a><div><h2>{{ content.site.headline }}</h2><p>{{ content.site.description }}</p></div></div>
-        <div class="dnd-hero-rule"><span>DESIGN MEETS ENGINEERING</span><span>SCROLL TO EXPLORE ↓</span></div>
+        <div class="dnd-hero-caption"><span>{{ content.site.eyebrow }}</span><span>ENGINEERING / DND TECH</span></div>
+        <div class="engineering-hero">
+          <div class="engineering-copy">
+            <h1>Full-stack <span>engineering.</span></h1>
+            <p class="engineering-headline">{{ content.site.headline }}</p>
+            <p>{{ content.site.description }}</p>
+            <div class="engineering-actions">
+              <a href="#work" class="engineering-primary">Lihat karya tim <span aria-hidden="true">↘</span></a>
+              <a href="#contact">Hubungi tim <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <figure class="engineering-map">
+            <figcaption><span>CAKUPAN ENGINEERING</span><span aria-hidden="true">+</span></figcaption>
+            <ol>
+              <li><span class="engineering-number">01</span><div><strong>Frontend</strong><span>Nuxt · Vue · TypeScript</span></div></li>
+              <li><span class="engineering-number">02</span><div><strong>Backend & data</strong><span>NestJS · PostgreSQL · Redis</span></div></li>
+              <li><span class="engineering-number">03</span><div><strong>Infrastructure</strong><span>Docker · deployment</span></div></li>
+            </ol>
+            <div class="engineering-map-footer">DND TECH / SOFTWARE SYSTEMS</div>
+          </figure>
+        </div>
+        <div class="dnd-hero-rule"><span>ERP / WEB APPLICATIONS / GAME SYSTEMS</span><a href="#work">KARYA TIM ↓</a></div>
       </section>
       <section id="work" class="dnd-work dnd-container">
         <div class="dnd-section-label"><span>01 / PROJECT INDEX</span><span>{{ String(projects.length).padStart(2, '0') }} PROJECTS</span></div>
